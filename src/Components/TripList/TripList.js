@@ -1,37 +1,36 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import axios from 'axios';
 
-export class TripList extends Component {
-    constructor(props) {
-        super(props);
-    
-        this.state = {
-          tripList: props.trips
-        };
-      }
+export default class TripList extends Component{
+  constructor(){
+    super();
+    this.state = {
+      trips: []
+    }
+  }
 
-      componentWillReceiveProps(props) {
-        this.setState({
-          trips: props.trips
-        });
-      }
-
-  render() {
-    const trips = this.state.tripsToDisplay.map ( t => {
-        return(
-            <div key={t.id}>
-            <p>Origin: {t.origin}</p>
-            <p>Destination: {t.destination}</p>
-            <p>Distance: {t.distance}</p>
-
-            </div>
-        )
+  componentDidMount(){
+    axios.get('/api/trips')
+    .then(response => {
+      this.setState({trips: response.data})
     })
-    return (
+  }
+
+  render(){
+    const {trips} = this.state;
+    return(
       <div>
-        <div className="tripContainer">
-                    {trips}
-                </div>
-      </div>
+        <p>Trips: </p>
+        {
+          trips.map((trip, index) => (
+            <div>
+              <span>Origin: {trips[trip.id].origin} | Destination: {trips[trip.id].destination} | Distance: {trips[trip.id].distance} | Duration {trips[trip.id].duration}</span>
+              </div>
+          ))
+        }
+        </div>
     )
   }
 }
+
+
