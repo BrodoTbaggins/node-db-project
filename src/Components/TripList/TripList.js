@@ -11,7 +11,7 @@ export class TripList extends Component {
 
       componentWillReceiveProps(props) {
         this.setState({
-          team: props.trips
+          trips: props.trips
         });
       }
 
